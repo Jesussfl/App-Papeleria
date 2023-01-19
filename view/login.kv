@@ -3,25 +3,25 @@ MDScreen:
     MDFloatLayout:
         md_bg_color: 1, 1, 1 ,1
         Image:
-            source: "assets/logo-papeleria.png"
+            source: "assets/images/logo-papeleria.png"
             size_hint: .26, .26
-            pos_hint: {"center_x": .22, "center_y": .8}
+            pos_hint: {"center_x": .22, "center_y": .9}
         MDLabel:
             text: "Bienvenido"
             font_size: "18sp"
             font_name: "Poppins-Medium.ttf"
             color: 120/255, 120/255, 120/255, 1
-            pos_hint: {"center_x": .6, "center_y": .65}
+            pos_hint: {"center_x": .6, "center_y": .80}
         MDLabel:
             text: "Procede a iniciar sesion"
             font_size: "20sp"
             font_name: "Poppins-Semibold.ttf"
-            pos_hint: {"center_x": .6, "center_y": .58}
+            pos_hint: {"center_x": .6, "center_y": .68}
         MDFloatLayout:
             size_hint: .79, .08
-            pos_hint: {"center_x": .5, "center_y": .42}
+            pos_hint: {"center_x": .5, "center_y": .52}
             MDLabel:
-                text: "Nombre de Usuario"
+                text: "Correo Electrónico"
                 font_size: "14sp"
                 font_name: "Poppins-Medium.ttf"
                 pos_hint: {"center_x": .5, "center_y": .9}
@@ -42,7 +42,7 @@ MDScreen:
 
         MDFloatLayout:
             size_hint: .79, .08
-            pos_hint: {"center_x": .5, "center_y": .28}
+            pos_hint: {"center_x": .5, "center_y": .38}
             MDLabel:
                 text: "Contraseña"
                 font_size: "14sp"
@@ -63,8 +63,15 @@ MDScreen:
                 pos_hint: {"center_x": .5, "center_y": .0}
                 size_hint_y: .03
                 md_bg_color: 120/255, 120/255, 120/255, 1
+            MDTextButton:
+                text: "Olvidé mi contraseña"
+                font_size: "13sp"
+                pos_hint: {"center_x": .8, "center_y": -.6}
+                halign: "center"
+                color: 120/255, 120/255, 120/255, 1
+                on_release: root.manager.current = "recover-password"
         Button:
-            text: "Iniciar Sesion"
+            text: "Iniciar Sesión"
             background_color: 0, 0, 0, 0
             font_name: "Poppins-Medium.ttf"
             size_hint: .79, .08
@@ -77,8 +84,9 @@ MDScreen:
                     pos: self.pos
                     radius: [2]
         MDTextButton:
-            text: "Olvide mi contraseña"
+            text: "No tengo una cuenta"
             font_size: "13sp"
             pos_hint: {"center_x": .5, "center_y": .07}
             halign: "center"
             color: 120/255, 120/255, 120/255, 1
+            on_release: root.manager.current = "signup"
