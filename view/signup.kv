@@ -1,0 +1,183 @@
+MDScreen:
+    name: "signup"
+    ScrollView:
+        MDGridLayout:
+            cols: 1
+            padding: 24
+            spacing: 10
+            pos_hint: {"center_x": .5, "center_y": 1}
+            size_hint_y: None
+            height: self.minimum_height
+            md_bg_color: 1, 1, 1 ,1
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                height: 100
+                size_hint_y: None
+                Image:
+                    source: "assets/images/logo-papeleria.png"
+                    size_hint: 1, 1
+
+                MDLabel:
+                    text: "Bienvenido, cree su nueva cuenta"
+                    font_size: "20sp"
+                    font_name: "Poppins-Semibold.ttf"
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: 10
+                height: self.minimum_height
+                size_hint: 1, None
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    height: 70
+                    size_hint: 1, None
+                    MDLabel:
+                        text: "Nombre y Apellido"
+                        font_size: "13sp"
+                        font_name: "Poppins-Medium.ttf"
+                    TextInput:
+                        size_hint_y: .80
+                        font_name: "Poppins-Regular.ttf"
+                        background_color: 0, 0, 0, 0
+                        cursor_color: 0, 0, 0, 1
+                        cursor_width: "2sp"
+                        foreground_color: 120/255, 120/255, 120/255, 1
+                        font_size: "13sp"
+                        multiline: False
+                    MDFloatLayout:
+                        size_hint_y: .03
+                        md_bg_color: 120/255, 120/255, 120/255, 1
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    height: 70
+                    size_hint: 1, None
+                    MDLabel:
+                        text: "Correo electrónico"
+                        font_size: "13sp"
+                        font_name: "Poppins-Medium.ttf"
+                    TextInput:
+                        size_hint_y: .80
+                        font_name: "Poppins-Regular.ttf"
+                        background_color: 0, 0, 0, 0
+                        cursor_color: 0, 0, 0, 1
+                        cursor_width: "2sp"
+                        foreground_color: 120/255, 120/255, 120/255, 1
+                        font_size: "13sp"
+                        multiline: False
+                    MDFloatLayout:
+                        size_hint_y: .03
+                        md_bg_color: 120/255, 120/255, 120/255, 1
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    height: 70
+                    size_hint: 1, None
+                    MDLabel:
+                        text: "N° Cedula o Rif"
+                        font_size: "13sp"
+                        font_name: "Poppins-Medium.ttf"
+                    TextInput:
+                        size_hint_y: .80
+                        font_name: "Poppins-Regular.ttf"
+                        background_color: 0, 0, 0, 0
+                        cursor_color: 0, 0, 0, 1
+                        cursor_width: "2sp"
+                        foreground_color: 120/255, 120/255, 120/255, 1
+                        font_size: "13sp"
+                        multiline: False
+                    MDFloatLayout:
+                        size_hint_y: .03
+                        md_bg_color: 120/255, 120/255, 120/255, 1
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    height: 70
+                    size_hint: 1, None
+                    MDLabel:
+                        text: "Dirección"
+                        font_size: "13sp"
+                        font_name: "Poppins-Medium.ttf"
+                    TextInput:
+                        size_hint_y: .80
+                        font_name: "Poppins-Regular.ttf"
+                        background_color: 0, 0, 0, 0
+                        cursor_color: 0, 0, 0, 1
+                        cursor_width: "2sp"
+                        foreground_color: 120/255, 120/255, 120/255, 1
+                        font_size: "13sp"
+                        multiline: False
+                    MDFloatLayout:
+                        size_hint_y: .03
+                        md_bg_color: 120/255, 120/255, 120/255, 1
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    height: 70
+                    size_hint: 1, None
+                    MDLabel:
+                        text: "Teléfono"
+                        font_size: "13sp"
+                        font_name: "Poppins-Medium.ttf"
+                    TextInput:
+                        size_hint_y: .80
+                        font_name: "Poppins-Regular.ttf"
+                        background_color: 0, 0, 0, 0
+                        cursor_color: 0, 0, 0, 1
+                        cursor_width: "2sp"
+                        foreground_color: 120/255, 120/255, 120/255, 1
+                        font_size: "13sp"
+                        multiline: False
+                    MDFloatLayout:
+                        size_hint_y: .03
+                        md_bg_color: 120/255, 120/255, 120/255, 1
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    height: 70
+                    size_hint: 1, None
+                    MDLabel:
+                        text: "Contraseña"
+                        font_size: "13sp"
+                        font_name: "Poppins-Medium.ttf"
+                    TextInput:
+                        size_hint_y: .80
+                        font_name: "Poppins-Regular.ttf"
+                        background_color: 0, 0, 0, 0
+                        cursor_color: 0, 0, 0, 1
+                        cursor_width: "2sp"
+                        foreground_color: 120/255, 120/255, 120/255, 1
+                        font_size: "13sp"
+                        multiline: False
+                    MDFloatLayout:
+                        size_hint_y: .03
+                        md_bg_color: 120/255, 120/255, 120/255, 1
+
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                height: 100
+                spacing: 10
+                size_hint_y: None
+                Button:
+                    text: "Registrarme"
+                    background_color: 0, 0, 0, 0
+                    font_name: "Poppins-Medium.ttf"
+                    height: 50
+                    size_hint: .79, None
+                    pos_hint: {"center_x": .5, "center_y": .15}
+                    canvas.before:
+                        Color:
+                            rgb: 226/255, 0, 48/255, 1
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [2]
+                MDTextButton:
+                    text: "Ya tengo una cuenta"
+                    font_size: "13sp"
+                    pos_hint: {"center_x": .5, "center_y": .07}
+                    halign: "center"
+                    color: 120/255, 120/255, 120/255, 1
+                    on_release: root.manager.current = "login"
