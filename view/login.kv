@@ -20,49 +20,32 @@ MDScreen:
         MDFloatLayout:
             size_hint: .79, .08
             pos_hint: {"center_x": .5, "center_y": .52}
-            MDLabel:
-                text: "Correo Electrónico"
-                font_size: "14sp"
-                font_name: "Poppins-Medium.ttf"
-                pos_hint: {"center_x": .5, "center_y": .9}
-            TextInput:
-                size_hint_y: .75
+            MDTextField:
+                id: correoInput
+                hint_text: "Correo Electrónico"
                 font_name: "Poppins-Regular.ttf"
                 pos_hint: {"center_x": .49, "center_y": .4}
-                background_color: 0, 0, 0, 0
-                cursor_color: 0, 0, 0, 1
                 cursor_width: "2sp"
-                foreground_color: 120/255, 120/255, 120/255, 1
                 font_size: "13sp"
                 multiline: False
-            MDFloatLayout:
-                pos_hint: {"center_x": .5, "center_y": .0}
-                size_hint_y: .03
-                md_bg_color: 120/255, 120/255, 120/255, 1
+                color_mode: 'custom'
+                line_color_focus: 0, 0, 0, 1
+                max_text_length: 50
 
         MDFloatLayout:
             size_hint: .79, .08
             pos_hint: {"center_x": .5, "center_y": .38}
-            MDLabel:
-                text: "Contraseña"
-                font_size: "14sp"
-                font_name: "Poppins-Medium.ttf"
-                pos_hint: {"center_x": .5, "center_y": .9}
-            TextInput:
-                size_hint_y: .75
+            MDTextField:
+                id: contraseñaInput
+                hint_text: "Contraseña"
                 font_name: "Poppins-Regular.ttf"
                 pos_hint: {"center_x": .49, "center_y": .4}
-                background_color: 0, 0, 0, 0
-                cursor_color: 0, 0, 0, 1
                 cursor_width: "2sp"
                 font_size: "13sp"
                 multiline: False
-                foreground_color: 120/255, 120/255, 120/255, 1
+                color_mode: 'custom'
                 password: True
-            MDFloatLayout:
-                pos_hint: {"center_x": .5, "center_y": .0}
-                size_hint_y: .03
-                md_bg_color: 120/255, 120/255, 120/255, 1
+                line_color_focus: 0, 0, 0, 1
             MDTextButton:
                 text: "Olvidé mi contraseña"
                 font_size: "13sp"
@@ -76,6 +59,7 @@ MDScreen:
             font_name: "Poppins-Medium.ttf"
             size_hint: .79, .08
             pos_hint: {"center_x": .5, "center_y": .15}
+            on_release: root.manager.current = "homeScreen"
             canvas.before:
                 Color:
                     rgb: 226/255, 0, 48/255, 1
