@@ -1,6 +1,6 @@
+#:kivy 1.0
 
-MDScreen:
-    name: "signup"
+<Signup>:
     ScrollView:
         MDGridLayout:
             cols: 1
@@ -29,131 +29,92 @@ MDScreen:
                 spacing: 10
                 height: self.minimum_height
                 size_hint: 1, None
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    height: 70
-                    size_hint: 1, None
-                    MDLabel:
-                        text: "Nombre y Apellido"
-                        font_size: "13sp"
-                        font_name: "Poppins-Medium.ttf"
-                    TextInput:
-                        size_hint_y: .80
-                        font_name: "Poppins-Regular.ttf"
-                        background_color: 0, 0, 0, 0
-                        cursor_color: 0, 0, 0, 1
-                        cursor_width: "2sp"
-                        foreground_color: 120/255, 120/255, 120/255, 1
-                        font_size: "13sp"
-                        multiline: False
-                    MDFloatLayout:
-                        size_hint_y: .03
-                        md_bg_color: 120/255, 120/255, 120/255, 1
 
+                MDTextField:
+                    id: inputFullName
+                    hint_text: "Nombre y Apellido"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
+                    on_focus: if root.validate_name(self) == False: self.text = ""
+                MDTextField:
+                    id: inputPhone
+                    hint_text: "Teléfono"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    input_filter: 'int'
+                    line_color_focus: 0, 0, 0, .3
                 MDBoxLayout:
-                    orientation: 'vertical'
-                    height: 70
+                    orientation: 'horizontal'
+                    spacing: 10
+                    height: self.minimum_height
                     size_hint: 1, None
-                    MDLabel:
-                        text: "Correo electrónico"
-                        font_size: "13sp"
-                        font_name: "Poppins-Medium.ttf"
-                    TextInput:
-                        size_hint_y: .80
+                    MDTextField:
+                        id: menu_
+                        elevation: 0
+                        hint_text: "Tipo de documento"
                         font_name: "Poppins-Regular.ttf"
-                        background_color: 0, 0, 0, 0
-                        cursor_color: 0, 0, 0, 1
                         cursor_width: "2sp"
-                        foreground_color: 120/255, 120/255, 120/255, 1
                         font_size: "13sp"
                         multiline: False
-                    MDFloatLayout:
-                        size_hint_y: .03
-                        md_bg_color: 120/255, 120/255, 120/255, 1
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    height: 70
-                    size_hint: 1, None
-                    MDLabel:
-                        text: "N° Cedula o Rif"
-                        font_size: "13sp"
-                        font_name: "Poppins-Medium.ttf"
-                    TextInput:
-                        size_hint_y: .80
+                        color_mode: 'custom'
+                        line_color_focus: 0, 0, 0, .3
+                        on_focus: if self.focus: root.menu.open()
+                    MDTextField:
+                        id: inputDNI
+                        hint_text: "N° Cédula o Rif"
                         font_name: "Poppins-Regular.ttf"
-                        background_color: 0, 0, 0, 0
-                        cursor_color: 0, 0, 0, 1
                         cursor_width: "2sp"
-                        foreground_color: 120/255, 120/255, 120/255, 1
                         font_size: "13sp"
                         multiline: False
-                    MDFloatLayout:
-                        size_hint_y: .03
-                        md_bg_color: 120/255, 120/255, 120/255, 1
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    height: 70
-                    size_hint: 1, None
-                    MDLabel:
-                        text: "Dirección"
-                        font_size: "13sp"
-                        font_name: "Poppins-Medium.ttf"
-                    TextInput:
-                        size_hint_y: .80
-                        font_name: "Poppins-Regular.ttf"
-                        background_color: 0, 0, 0, 0
-                        cursor_color: 0, 0, 0, 1
-                        cursor_width: "2sp"
-                        foreground_color: 120/255, 120/255, 120/255, 1
-                        font_size: "13sp"
-                        multiline: False
-                    MDFloatLayout:
-                        size_hint_y: .03
-                        md_bg_color: 120/255, 120/255, 120/255, 1
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    height: 70
-                    size_hint: 1, None
-                    MDLabel:
-                        text: "Teléfono"
-                        font_size: "13sp"
-                        font_name: "Poppins-Medium.ttf"
-                    TextInput:
-                        size_hint_y: .80
-                        font_name: "Poppins-Regular.ttf"
-                        background_color: 0, 0, 0, 0
-                        cursor_color: 0, 0, 0, 1
-                        cursor_width: "2sp"
-                        foreground_color: 120/255, 120/255, 120/255, 1
-                        font_size: "13sp"
-                        multiline: False
-                    MDFloatLayout:
-                        size_hint_y: .03
-                        md_bg_color: 120/255, 120/255, 120/255, 1
-
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    height: 70
-                    size_hint: 1, None
-                    MDLabel:
-                        text: "Contraseña"
-                        font_size: "13sp"
-                        font_name: "Poppins-Medium.ttf"
-                    TextInput:
-                        size_hint_y: .80
-                        font_name: "Poppins-Regular.ttf"
-                        background_color: 0, 0, 0, 0
-                        cursor_color: 0, 0, 0, 1
-                        cursor_width: "2sp"
-                        foreground_color: 120/255, 120/255, 120/255, 1
-                        font_size: "13sp"
-                        multiline: False
-                    MDFloatLayout:
-                        size_hint_y: .03
-                        md_bg_color: 120/255, 120/255, 120/255, 1
+                        color_mode: 'custom'
+                        input_filter: 'int'
+                        line_color_focus: 0, 0, 0, .3
+                MDTextField:
+                    id: inputAddress
+                    hint_text: "Dirección"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
+                MDTextField:
+                    id: inputSex
+                    hint_text: "Sexo"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
+                MDTextField:
+                    id: inputEmail
+                    hint_text: "Correo Electrónico"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
+                    helper_text: "user@gmail.com"
+                    validator: 'email'
+                MDTextField:
+                    id: inputPassword
+                    hint_text: "Contraseña"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    password: True
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
 
 
             MDBoxLayout:
@@ -175,6 +136,7 @@ MDScreen:
                             size: self.size
                             pos: self.pos
                             radius: [2]
+                    on_release: root.connect()
                 MDTextButton:
                     text: "Ya tengo una cuenta"
                     font_size: "13sp"
