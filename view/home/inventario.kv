@@ -1,6 +1,72 @@
 <Inventario>:
     name: "inventario"
-    MDLabel:
-        text: "Inventario"
-        pos_hint: {"center_y": .5}
-        halign: "center"
+    MDGridLayout:
+        cols: 1
+        size_hint_y: None
+        height: root.height
+        md_bg_color: 1, 1, 1, 1
+        MDTopAppBar:
+            id: toolbar
+            title: 'Inventario'
+            elevation: 1
+            pos_hint: {'center_x': 0.5, 'center_y': 1}
+            md_bg_color: 255/255, 230/255, 0/255, 1
+            font_size: '10sp'
+            specific_text_color: 0, 0, 0, .8
+            left_action_items: [["clipboard-list-outline", "Inventario"]]
+            right_action_items: [["plus", lambda _: setattr(app.manager, 'current', 'agregarProducto'), "Añadir Producto"]]
+        ScrollView:
+            size_hint_y: None
+            height: root.height
+            MDGridLayout:
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                BoxLayout:
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    padding: 24, 24, 24, 12
+                    spacing: 12
+                    MDTextField:
+                        hint_text: "Buscar Producto..."
+                        font_name: "Poppins-Regular.ttf"
+                        pos_hint: {"center_x": .49, "center_y": .4}
+                        cursor_width: "2sp"
+                        font_size: "13sp"
+                        multiline: False
+                        color_mode: 'custom'
+                        icon_left: 'magnify'
+                        fill_color: 120/255, 120/255, 120/255, .03
+                    MDLabel:
+                        text: '2 productos'
+                        font_size: "13sp"
+                MDGridLayout:
+                    id: listContainer
+                    cols: 1
+                    padding: 0, 10, 0, 0
+                    size_hint_y: None
+                    height: root.height
+                    md_bg_color: 120/255, 120/255, 120/255, .04
+        MDFloatLayout:
+            pos_hint: {'center_x': .5, 'center_y': 1}
+            MDBottomNavigation:
+                id: bottomNavigation
+                panel_color: "#eeeaea"
+                selected_color_background: "red"
+                text_color_active: "red"
+
+                MDBottomNavigationItem:
+                    icon: 'home-outline'
+                    name: 'catalogo-screen'
+                    on_tab_press: app.manager.current = "catalogo"
+
+                MDBottomNavigationItem:
+                    name: 'inventario-screen'
+                    icon: 'clipboard-list-outline'
+                    on_tab_press: app.manager.current = "inventario"
+
+                MDBottomNavigationItem:
+                    name: 'perfil-screen'
+                    icon: 'account-circle-outline'
+                    on_tab_press: app.manager.current = "perfil"

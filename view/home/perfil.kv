@@ -1,6 +1,137 @@
 <Perfil>:
     name: "perfil"
-    MDLabel:
-        text: "Perfil"
-        pos_hint: {"center_y": .5}
-        halign: "center"
+
+    MDGridLayout:
+        cols: 1
+        size_hint_y: None
+        height: root.height
+        md_bg_color: 1, 1, 1, 1
+        MDTopAppBar:
+            id: toolbar
+            title: 'Perfil de Usuario'
+            elevation: 1
+            pos_hint: {'center_x': 0.5, 'center_y': 1}
+            md_bg_color: 255/255, 230/255, 0/255, 1
+            specific_text_color: 0, 0, 0, .8
+            left_action_items: [["account-circle-outline", "Perfil"]]
+        MDGridLayout:
+            cols: 1
+            padding: 24, 0, 24, 0
+            spacing: 10
+            pos_hint: {"center_x": .5, "center_y": 1}
+            size_hint_y: None
+            height: self.minimum_height
+            md_bg_color: 1, 1, 1 ,1
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+                height: self.minimum_height
+                size_hint_y: None
+                pos_hint: {"center_x": .5, "center_y": 1}
+                MDIconButton:
+                    icon: 'account-circle-outline'
+                MDLabel:
+                    id: label_fullname
+                    text: "nombreCompleto"
+                    font_size: "20sp"
+                    font_name: "Poppins-Semibold.ttf"
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: 10
+                height: self.minimum_height
+                size_hint: 1, None
+
+                MDTextField:
+                    id: inputPhone
+                    disabled: True
+                    hint_text: "Teléfono"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    spacing: 10
+                    height: self.minimum_height
+                    size_hint: 1, None
+                    MDTextField:
+                        id: inputTipo
+                        hint_text: "Tipo de documento"
+                        font_name: "Poppins-Regular.ttf"
+                        cursor_width: "2sp"
+                        font_size: "13sp"
+                        multiline: False
+                        color_mode: 'custom'
+                        disabled: True
+                        line_color_focus: 0, 0, 0, .3
+                    MDTextField:
+                        id: inputDNI
+                        hint_text: "N° Cédula o Rif"
+                        font_name: "Poppins-Regular.ttf"
+                        cursor_width: "2sp"
+                        font_size: "13sp"
+                        multiline: False
+                        color_mode: 'custom'
+                        input_filter: 'int'
+                        disabled: True
+                        line_color_focus: 0, 0, 0, .3
+
+                MDTextField:
+                    id: inputAddress
+                    hint_text: "Dirección"
+                    disabled: True
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
+                MDTextField:
+                    id: inputEmail
+                    disabled: True
+                    hint_text: "Correo Electrónico"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
+                MDTextField:
+                    id: inputRango
+                    disabled: True
+                    hint_text: "Rango"
+                    font_name: "Poppins-Regular.ttf"
+                    cursor_width: "2sp"
+                    font_size: "13sp"
+                    multiline: False
+                    color_mode: 'custom'
+                    line_color_focus: 0, 0, 0, .3
+
+        MDBottomNavigation:
+            id: bottom_navigation
+            panel_color: "#eeeaea"
+            selected_color_background: "red"
+            text_color_active: "red"
+
+            MDBottomNavigationItem:
+                id: catalogoScreen
+                icon: 'home-outline'
+                name: 'catalogo-screen'
+                on_tab_press: app.manager.current = "catalogo"
+
+            MDBottomNavigationItem:
+                id: inventarioScreen
+                name: "inventario-screen"
+                icon: 'clipboard-list-outline'
+                on_tab_press: app.manager.current = "inventario"
+
+            MDBottomNavigationItem:
+                id: perfilScreen
+                name: 'perfil-screen'
+                icon: 'account-circle-outline'
+                on_tab_press: app.manager.current = "perfil"
+
+

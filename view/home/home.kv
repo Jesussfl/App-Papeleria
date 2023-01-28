@@ -1,8 +1,10 @@
 #:import NoTransition kivy.uix.screenmanager.NoTransition
+
 MDScreen:
     name: "homeScreen"
 
     MDFloatLayout:
+        id: container
         md_bg_color: 1, 1, 1, 1
         ScreenManager:
             id: scr
@@ -10,7 +12,6 @@ MDScreen:
             Catalogo:
             Perfil:
             Inventario
-
 
         NavBar:
             size_hint: .7, .1
@@ -25,9 +26,9 @@ MDScreen:
                 halign: "center"
                 MDIconButton:
                     id: nav_icon0
-                    icon: "home"
+                    icon: "home-outline"
                     ripple_scale: 0
-                    user_font_size: "30sp"
+                    user_font_size: "24sp"
                     theme_text_color: "Custom"
                     text_color: 1, 0, 0, 1
                     on_release:
@@ -35,31 +36,33 @@ MDScreen:
                         app.change_color(self)
                 MDIconButton:
                     id: nav_icon1
-                    icon: "home"
+                    icon: "clipboard-list-outline"
                     ripple_scale: 0
-                    user_font_size: "30sp"
+                    user_font_size: "24sp"
                     theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1
+                    text_color: 120/255, 120/255, 120/255, 1
                     on_release:
                         scr.current = "inventario"
                         app.change_color(self)
                 MDIconButton:
                     id: nav_icon2
-                    icon: "home"
+                    icon: "account-circle-outline"
                     ripple_scale: 0
-                    user_font_size: "30sp"
+                    user_font_size: "24sp"
                     theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1
+                    text_color: 120/255, 120/255, 120/255, 1
                     on_release:
-                        scr.current = "perfil"
+                        app.manager.current = "perfil"
                         app.change_color(self)
+                        app.perfilConnect.connect()
                 MDIconButton:
                     id: nav_icon3
-                    icon: "home"
+                    icon: "logout-variant"
                     ripple_scale: 0
-                    user_font_size: "30sp"
+                    user_font_size: "24sp"
                     theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1
+                    text_color: 120/255, 120/255, 120/255, 1
                     on_release:
                         app.change_color(self)
+
 
