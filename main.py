@@ -7,10 +7,7 @@ from kivymd.uix.behaviors import FakeRectangularElevationBehavior
 from kivymd.uix.floatlayout import MDFloatLayout
 
 from model.agregarProducto import AgregarProducto
-from model.catalogo import Catalogo
-from model.inventario import Inventario
 from model.login import Login
-from model.perfil import Perfil
 from model.signup import Signup
 
 
@@ -31,27 +28,26 @@ class NavBar(FakeRectangularElevationBehavior, MDFloatLayout):
 
 class Papeleria(MDApp):
 
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.manager = ScreenManager(transition=NoTransition())
+
     def build(self):
 
         # Adición de widgets al screen principal mediante el administrador de pantallas
 
-        self.manager = ScreenManager(transition=NoTransition())
-
         self.manager.add_widget(Builder.load_file("view/pre-splash.kv"))
         self.manager.add_widget(Login(name='login'))
         self.manager.add_widget(Signup(name='signup'))
-        self.manager.add_widget(Perfil(name='perfil'))
-        self.manager.add_widget(Inventario(name='inventario'))
-        self.manager.add_widget(Catalogo(name='catalogo'))
         self.manager.add_widget(AgregarProducto(name='agregarProducto'))
         self.manager.add_widget(Builder.load_file("view/recover-password/recover-password.kv"))
-        self.perfilConnect = Perfil()
         return self.manager
 
     def on_start(self):
         # Tiempo de carga para el splash screen
-        Clock.schedule_once(self.login, 1)
+        Clock.schedule_once(self.login, 4)
 
+        # Limpieza del archivo que guarda las credenciales de la sesión
         with open('model/session.txt', 'w') as mytextfile:
             mytextfile.truncate()
 

@@ -39,7 +39,7 @@
                     multiline: False
                     color_mode: 'custom'
                     line_color_focus: 0, 0, 0, .3
-                    on_focus: if root.validate_name(self) == False: self.text = ""
+                    on_focus: if root.validar_nombre_completo(self) == False: self.text = ""
                 MDTextField:
                     id: inputPhone
                     hint_text: "Teléfono"

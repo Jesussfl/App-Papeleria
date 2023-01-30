@@ -8,63 +8,81 @@ import mysql
 import mysql.connector
 from mysql.connector import Error
 
+from model.catalogo import Catalogo
+from model.inventario import Inventario
+from model.perfil import Perfil
+
 
 class Login(MDScreen):
-    pass
 
-    def connect(self):
+
+    def iniciar_sesion(self):
 
         try:
             app = App.get_running_app()
-            input_email = app.manager.get_screen('login').ids['inputEmail'].text
-            input_password = app.manager.get_screen('login').ids['inputPassword'].text
-            now = datetime.now()
-            now_formated = now.strftime("%Y-%m-%d %H:%M:%S")
+            # Almacenando los datos de los campos en variables
+            correo = app.manager.get_screen('login').ids['inputEmail'].text
+            contraseña = app.manager.get_screen('login').ids['inputPassword'].text
+            tiempo_actual = datetime.now()
+            tiempo_actual_formateado = tiempo_actual.strftime("%Y-%m-%d %H:%M:%S")
 
-            config = configparser.ConfigParser()
-            config.read('config.ini')
+            conexion, conteo, cursor = self.validar_usuario(contraseña, correo)
 
-            host = config['mysql']['host']
-            user = config['mysql']['user']
-            password = config['mysql']['password']
-            dbname = config['mysql']['db']
-
-            db = mysql.connector.connect(host=str(host), user=str(user), password=str(password), database=str(dbname))
-            cursor = db.cursor()
-
-            query = "SELECT count(*) FROM usuarios where correo='" + str(input_email) + "' and contraseña = '" + str(
-                input_password) + "'"
-            cursor.execute(query)
-            data = cursor.fetchone()
-            count = data[0]
-
-            if not count:
+            if not conteo:
                 toast("Datos Incorrectos.")
+                return False
             else:
                 toast('Sesión Iniciada')
 
-                with open('model/session.txt', 'w') as mytextfile:
-                    mytextfile.write(input_email)
-                query = "update usuarios set ultimo_inicio='" + now_formated + "' WHERE correo = '" + str(
-                    input_email) + "'"
-                cursor.execute(query)
-                db.commit()
+                self.actualizar_ultimo_inicio(conexion, correo, cursor, tiempo_actual_formateado)
+
+                self.manager.add_widget(Catalogo(name='catalogo'))
+                self.manager.add_widget(Perfil(name='perfil'))
+                self.manager.add_widget(Inventario(name='inventario'))
                 self.manager.current = 'catalogo'
-                return True
 
         except Error as ex:
             print("Error durante la conexion:", ex)
 
-            self.show_error(f"Error MySQL {ex.errno}: {ex.msg}")
+            self.mostrar_error(f"Error MySQL {ex.errno}: {ex.msg}")
 
         finally:
-            if db.is_connected():
-                db.close()
+            if conexion.is_connected():
+                conexion.close()
                 print("Se cerro la base de datos")
 
-        return input_email
         pass
 
-    def show_error(self, error_message):
+    def actualizar_ultimo_inicio(self, conexion, correo, cursor, tiempo_actual_formateado):
+        with open('model/session.txt', 'w') as mytextfile:
+            mytextfile.write(correo)
+        query = "update usuarios set ultimo_inicio='" + tiempo_actual_formateado + "' WHERE correo = '" + str(
+            correo) + "'"
+        cursor.execute(query)
+        conexion.commit()
+
+    def validar_usuario(self, contraseña, correo):
+
+        # Conectando la base de datos
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        host = config['mysql']['host']
+        user = config['mysql']['user']
+        password = config['mysql']['password']
+        dbname = config['mysql']['db']
+        conexion = mysql.connector.connect(host=str(host), user=str(user), password=str(password),
+                                           database=str(dbname))
+        cursor = conexion.cursor()
+        # Ejecutando el query para validar los datos introducidos
+        query = "SELECT count(*) FROM usuarios where correo='" + str(correo) + "' and contraseña = '" + str(
+            contraseña) + "'"
+        cursor.execute(query)
+        datos = cursor.fetchone()
+        conteo = datos[0]
+
+        return conexion, conteo, cursor
+
+    def mostrar_error(self, mensaje_error):
         # aquí podría mostrar un dialogo o una alerta con el mensaje de error
-        toast(f"{error_message}")
+        toast(f"{mensaje_error}")
+
