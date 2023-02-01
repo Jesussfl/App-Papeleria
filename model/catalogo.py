@@ -6,7 +6,7 @@ from kivy.core.window import Window
 from kivymd.uix.list import ImageLeftWidget, ThreeLineAvatarListItem
 from kivymd.uix.screen import MDScreen
 from mysql.connector import Error
-
+from kivy.uix.image import AsyncImage
 Window.size = (350, 580)
 
 
@@ -22,7 +22,7 @@ class Catalogo(MDScreen):
 
     def on_pre_enter(self, *args):
         self.cambiar_pantalla()
-        self.cargar_productos()
+        self.cargar_productos("SELECT * FROM inventario")
 
     def cambiar_pantalla(self):
         self.ids.bottomNavigation.switch_tab('catalogo-screen')
@@ -57,13 +57,20 @@ class Catalogo(MDScreen):
             db.close()
             print("Se cerro la base de datos")
 
-    def cargar_productos(self):
+    def buscar_producto(self):
+        nombre_producto = self.ids.inputBuscar.text
+        self.cargar_productos(
+            "SELECT * FROM inventario WHERE codigo LIKE '%{0}%' or nombre LIKE '%{0}%' OR descripcion LIKE '%{0}%' OR "
+            "marca LIKE '%{0}%'".format(
+                nombre_producto))
+
+    def cargar_productos(self, consulta):
 
         try:
             cursor, db = self.conectar_bd()
 
             # Ejecutando el query para seleccionar todos los productos disponibles del inventario
-            query = "SELECT * FROM inventario"
+            query = consulta
             cursor.execute(query)
             data = cursor.fetchall()
             cursor.close()
@@ -74,7 +81,7 @@ class Catalogo(MDScreen):
             # Leer los productos y colocarlos en el contenedor
             for i in range(len(data)):
                 self.ids.listContainer.add_widget(
-                    ThreeLineAvatarListItem(ImageLeftWidget(source="assets/images/logo-papeleria.png"),
+                    ThreeLineAvatarListItem(ImageLeftWidget(source=data[i][6]),
                                             text=f"{data[i][1]}", secondary_text=f"[size=13sp]{data[i][3]}[/size]",
                                             tertiary_text=f"[size=12sp]{data[i][4]}[/size]")
                 )

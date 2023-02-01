@@ -29,6 +29,7 @@
                     padding: 24, 24, 24, 12
                     spacing: 12
                     MDTextField:
+                        id: inputBuscar
                         hint_text: "Buscar Producto..."
                         font_name: "Poppins-Regular.ttf"
                         pos_hint: {"center_x": .49, "center_y": .4}
@@ -38,6 +39,7 @@
                         color_mode: 'custom'
                         icon_left: 'magnify'
                         fill_color: 120/255, 120/255, 120/255, .03
+                        on_text: root.buscar_producto()
                     MDLabel:
                         text: '2 productos'
                         font_size: "13sp"
