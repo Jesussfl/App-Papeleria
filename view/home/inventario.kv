@@ -17,7 +17,7 @@
             right_action_items: [["plus", lambda _: setattr(app.manager, 'current', 'agregarProducto'), "Añadir Producto"]]
         ScrollView:
             size_hint_y: None
-            height: root.height
+            height: root.height - toolbar.height
             MDGridLayout:
                 cols: 1
                 size_hint_y: None

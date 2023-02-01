@@ -81,8 +81,7 @@ class Inventario(MDScreen):
             check=True,
             row_data=rows,
             column_data=[(col, dp(40)) for col in cols],
-            use_pagination=True,
-
+            rows_num=100,
         )
         # Vincular DataTable
         table.bind(on_check_press=self.fila_seleccionada)
