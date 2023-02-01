@@ -28,6 +28,30 @@ class Signup(MDScreen):
             }
         ]
         self.menu = MDDropdownMenu(
+            caller=self.ids.inputSex,
+            items=menu_items,
+            position="bottom",
+            width_mult=4,
+        )
+        super().__init__(**kwargs)
+        menu_items = [
+            {
+                "viewclass": "OneLineListItem",
+                "text": f"Masculino",
+                "on_release": lambda x=f"Masculino": self.colocar_contenido_dropdown2(x),
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": f"Femenino",
+                "on_release": lambda x=f"Femenino": self.colocar_contenido_dropdown2(x),
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": f"Otro",
+                "on_release": lambda x=f"Otro": self.colocar_contenido_dropdown2(x),
+            }
+        ]
+        self.menu2 = MDDropdownMenu(
             caller=self.ids.menu_,
             items=menu_items,
             position="bottom",
@@ -36,6 +60,10 @@ class Signup(MDScreen):
 
     def colocar_contenido_dropdown(self, text__item):
         self.ids.menu_.text = text__item
+        self.menu.dismiss()
+
+    def colocar_contenido_dropdown2(self, text__item):
+        self.ids.inputSex.text = text__item
         self.menu.dismiss()
 
     def validar_nombre_completo(self, nombre):
@@ -58,10 +86,10 @@ class Signup(MDScreen):
             mytextfile.truncate()
 
         app = App.get_running_app()
-        nombre_completo = app.manager.get_screen('signup').ids['inputFullName'].text
+        nombre_completo = app.manager.get_screen('signup').ids['inputFullName'].text.title()
         telefono = app.manager.get_screen('signup').ids['inputPhone'].text
         cedula_rif = app.manager.get_screen('signup').ids['inputDNI'].text
-        direccion = app.manager.get_screen('signup').ids['inputAddress'].text
+        direccion = app.manager.get_screen('signup').ids['inputAddress'].text.title()
         genero = app.manager.get_screen('signup').ids['inputSex'].text
         correo = app.manager.get_screen('signup').ids['inputEmail'].text
         contraseña = app.manager.get_screen('signup').ids['inputPassword'].text
@@ -102,7 +130,7 @@ class Signup(MDScreen):
             return
 
         try:
-            nivel_usuario = ('Usuario', 'Empleado', 'Administrador')
+            nivel_usuario = ('Cliente', 'Empleado', 'Administrador')
             db = self.conectar_bd()
             if db.is_connected():
                 cursor = db.cursor()

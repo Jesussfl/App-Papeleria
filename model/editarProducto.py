@@ -2,6 +2,8 @@ import configparser
 from datetime import datetime
 
 from kivy.app import App
+from kivymd.uix.filemanager import MDFileManager
+from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.screen import MDScreen
 from kivymd.toast import toast
 import mysql
@@ -10,13 +12,69 @@ from mysql.connector import Error
 
 
 class EditarProducto(MDScreen):
-    def on_pre_enter(self, *args):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Creando el administrador de archivos
+        self.manager_open = False
+        self.file_manager = MDFileManager(
+            preview=True,
+            current_path='C:',
+            use_access=True,
+            exit_manager=self.exit_manager,
+            select_path=self.select_path
+        )
+
+        menu_items = [
+            {
+                "viewclass": "OneLineListItem",
+                "text": f"Dolar",
+                "on_release": lambda x=f"Dolar": self.colocar_contenido_dropdown(x),
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": f"Bolivar",
+                "on_release": lambda x=f"Bolivar": self.colocar_contenido_dropdown(x),
+            }
+        ]
+        self.menu = MDDropdownMenu(
+            caller=self.ids.inputTipoPrecio,
+            items=menu_items,
+            position="bottom",
+            width_mult=4,
+        )
         self.agregar_estilos_topbar()
         self.cargar_producto()
 
+    def colocar_contenido_dropdown(self, text__item):
+        self.ids.inputTipoPrecio.text = text__item
+        self.ids.inputPrecio.disabled = False
+        self.ids.inputPrecio.helper_text = ""
+        self.menu.dismiss()
+
+    # def on_pre_enter(self, *args):
 
     def agregar_estilos_topbar(self, *args):
         self.ids.toolbar.ids.label_title.font_size = '15sp'
+
+    def select_path(self, path):
+        # Almacenando la ruta del archivo seleccionado
+        path = path.replace('\\', '/')
+        self.ids.inputImagen.text = path
+        self.manager_open = False
+        self.file_manager.close()
+        pass
+
+    def on_pre_enter(self, *args):
+        self.agregar_estilos_topbar()
+
+    def exit_manager(self, *args):
+        self.remove_widget(self.file_manager)
+
+    def open_file_manager(self):
+        # Abriendo el administrador de archivos
+        self.file_manager.show('C:')
+        self.manager_open = True
 
     def cargar_producto(self):
         try:
@@ -24,7 +82,6 @@ class EditarProducto(MDScreen):
 
             with open('model/cache.txt') as mytextfile:
                 codigo = mytextfile.read()
-
             if db.is_connected():
                 cursor = db.cursor()
 
@@ -55,14 +112,38 @@ class EditarProducto(MDScreen):
     def editar_producto(self):
         app = App.get_running_app()
         codigo = app.manager.get_screen('editarProducto').ids['inputCodigo'].text
-        nombre = app.manager.get_screen('editarProducto').ids['inputNombreProducto'].text
+        nombre = app.manager.get_screen('editarProducto').ids['inputNombreProducto'].text.title()
         descripcion = app.manager.get_screen('editarProducto').ids['inputDescripcion'].text
-        cantidad = app.manager.get_screen('editarProducto').ids['inputCantidad'].text
-        precio = app.manager.get_screen('editarProducto').ids['inputPrecio'].text
-        marca = app.manager.get_screen('editarProducto').ids['inputMarca'].text
+        cantidad = int(app.manager.get_screen('editarProducto').ids['inputCantidad'].text)
+        precio = float(app.manager.get_screen('editarProducto').ids['inputPrecio'].text)
+        marca = app.manager.get_screen('editarProducto').ids['inputMarca'].text.title()
+        tipo_precio = app.manager.get_screen('editarProducto').ids['inputTipoPrecio'].text
         ruta_imagen = app.manager.get_screen('editarProducto').ids['inputImagen'].text
+        iva = 16
         tiempo_creacion = datetime.now()
-        estado = "Disponible"
+
+        # Validando que haya stock
+        if cantidad > 0:
+            estado = "Disponible"
+        else:
+            estado = "Agotado"
+
+        # Guardando el precio del dolar
+        with open('model/precioDolar.txt') as mytextfile:
+            precio_dolar = mytextfile.read()
+
+        if tipo_precio == "Bolivar":
+            # Aplicando el iva
+            precio_mas_iva = (((precio * iva) / 100) + precio)
+            precio = precio_mas_iva / float(precio_dolar)
+
+        else:
+            precio_bolivar = precio * float(precio_dolar)
+            precio_mas_iva = (((precio_bolivar * iva) / 100) + precio)
+            precio = precio_mas_iva / float(precio_dolar)
+
+        # Redondeando a 2 decimales
+        precio = round(precio, 2)
 
         # Validando que no hayan campos vacíos
         if not nombre or not cantidad or not precio or not marca or not ruta_imagen:

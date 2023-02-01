@@ -37,7 +37,7 @@
                         font_size: "13sp"
                         multiline: False
                         color_mode: 'custom'
-                        filter: 'int'
+                        input_filter: 'int'
                         disabled: True
                         line_color_focus: 0, 0, 0, .3
                     MDTextField:
@@ -62,9 +62,18 @@
                         cursor_width: "2sp"
                         font_size: "13sp"
                         multiline: False
-                        filter: 'int'
+                        input_filter: 'int'
                         color_mode: 'custom'
                         line_color_focus: 0, 0, 0, .3
+                    MDTextField:
+                        id: inputTipoPrecio
+                        hint_text: "Seleccione la Moneda"
+                        cursor_width: "2sp"
+                        font_size: "13sp"
+                        multiline: False
+                        color_mode: 'custom'
+                        line_color_focus: 0, 0, 0, .3
+                        on_focus: if self.focus: root.menu.open()
                     MDTextField:
                         id: inputPrecio
                         hint_text: "Precio"
@@ -72,8 +81,10 @@
                         font_size: "13sp"
                         multiline: False
                         color_mode: 'custom'
-                        filer: 'float'
+                        input_filter: 'float'
                         line_color_focus: 0, 0, 0, .3
+                        helper_text: "Seleccione el tipo de moneda"
+                        disabled: True
                     MDTextField:
                         id: inputMarca
                         hint_text: "Marca del Producto"
@@ -90,6 +101,7 @@
                         multiline: False
                         color_mode: 'custom'
                         line_color_focus: 0, 0, 0, .3
+                        on_focus: root.open_file_manager()
 
 
                 MDBoxLayout:

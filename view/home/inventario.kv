@@ -28,6 +28,7 @@
                     orientation: 'vertical'
                     padding: 24, 24, 24, 12
                     spacing: 12
+
                     MDTextField:
                         id: inputBuscar
                         hint_text: "Buscar Producto..."
@@ -39,9 +40,27 @@
                         icon_left: 'magnify'
                         fill_color: 120/255, 120/255, 120/255, .03
                         on_text: root.buscar_producto()
-                    MDLabel:
-                        text: '2 productos'
-                        font_size: "13sp"
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 12
+                        MDLabel:
+                            id: cantidadProductos
+                            font_size: "13sp"
+                        Button:
+                            text: "Precio del dolar"
+                            background_color: 0, 0, 0, 0
+                            height: 32
+                            size_hint: .74, None
+                            canvas.before:
+                                Color:
+                                    rgb: 226/255, 0, 48/255, 1
+                                RoundedRectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    radius: [2]
+                            on_release: root.abrir_precio_dolar()
                 MDGridLayout:
                     id: listContainer
                     cols: 1
@@ -71,3 +90,4 @@
                     name: 'perfil-screen'
                     icon: 'account-circle-outline'
                     on_tab_press: app.manager.current = "perfil"
+

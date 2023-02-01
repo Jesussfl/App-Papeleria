@@ -21,7 +21,6 @@
             pos_hint: {"center_x": .5, "center_y": .52}
             MDTextField:
                 id: inputEmail
-                text: "jefler02@gmail.com"
                 hint_text: "Correo Electrónico"
                 pos_hint: {"center_x": .49, "center_y": .4}
                 cursor_width: "2sp"
@@ -36,7 +35,6 @@
             pos_hint: {"center_x": .5, "center_y": .38}
             MDTextField:
                 id: inputPassword
-                text: "12345678bB"
                 hint_text: "Contraseña"
                 pos_hint: {"center_x": .49, "center_y": .4}
                 cursor_width: "2sp"
@@ -45,13 +43,13 @@
                 color_mode: 'custom'
                 password: True
                 line_color_focus: 0, 0, 0, 1
-            MDTextButton:
-                text: "Olvidé mi contraseña"
-                font_size: "13sp"
-                pos_hint: {"center_x": .8, "center_y": -.6}
-                halign: "center"
-                color: 120/255, 120/255, 120/255, 1
-                on_release: root.manager.current = "recover-password"
+#            MDTextButton:
+#                text: "Olvidé mi contraseña"
+#                font_size: "13sp"
+#                pos_hint: {"center_x": .8, "center_y": -.6}
+#                halign: "center"
+#                color: 120/255, 120/255, 120/255, 1
+#                on_release: root.manager.current = "recover-password"
         Button:
             text: "Iniciar Sesión"
             background_color: 0, 0, 0, 0

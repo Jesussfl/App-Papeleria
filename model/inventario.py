@@ -2,12 +2,15 @@ import configparser
 
 import mysql
 from kivy.metrics import dp
-from kivy.uix.image import AsyncImage, Image
+from kivy.properties import StringProperty
+from kivy.uix.boxlayout import BoxLayout
+from kivymd.app import MDApp
 from kivymd.toast import toast
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.screen import MDScreen
+from kivymd.uix.textfield import MDTextField
 from mysql.connector import cursor
 from mysql.connector import Error
 
@@ -16,7 +19,11 @@ from model.editarProducto import EditarProducto
 
 class Inventario(MDScreen):
     dialog = None
+    dialogDolar = None
+    text = StringProperty("")
     datos_fila_seleccionada = []
+    with open('model/precioDolar.txt') as mytextfile:
+        text = mytextfile.read()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -51,7 +58,6 @@ class Inventario(MDScreen):
 
     def buscar_producto(self):
         nombre_producto = self.ids.inputBuscar.text
-        print("hola")
         self.cargar_productos(
             "SELECT * FROM inventario WHERE codigo LIKE '%{0}%' or nombre LIKE '%{0}%' OR descripcion LIKE '%{0}%' OR marca LIKE '%{0}%'".format(
                 nombre_producto))
@@ -59,13 +65,12 @@ class Inventario(MDScreen):
     def cargar_productos(self, consulta):
         db = self.conectar_bd()
         cursor = db.cursor()
-        query = consulta
-        cursor.execute(query)
+        cursor.execute(consulta)
         rows = []
         for (codigo, nombre, descripcion, cantidad, precio, marca, imagen, estado, fecha_modificacion) in cursor:
-            print(imagen)
             rows.append((codigo, nombre, descripcion, cantidad, precio, marca, imagen, estado,
                          fecha_modificacion))
+        self.ids.cantidadProductos.text = f"{str(len(rows))} Productos"
         if db.is_connected():
             db.close()
         cols = ['Código', 'Producto', 'Descripción', 'Cantidad', 'Precio', 'Marca', 'Imágen', 'Estado',
@@ -102,7 +107,6 @@ class Inventario(MDScreen):
             db = self.conectar_bd()
             cursor = db.cursor()
             codigo = self.datos_fila_seleccionada[0]
-            print(codigo)
             query = "DELETE FROM inventario WHERE codigo={0}".format(codigo)
             cursor.execute(query)
             db.commit()
@@ -144,19 +148,58 @@ class Inventario(MDScreen):
                         on_release=self.cerrar_dialog
                     ),
                     MDFlatButton(
-                        text="Editar Fila",
+                        text="Editar",
                         on_release=self.editar_producto
                     ),
                     MDFlatButton(
-                        text="Eliminar Producto",
+                        text="Eliminar",
                         on_release=self.eliminar_producto
                     ),
                 ],
             )
         self.dialog.open()
 
+    def abrir_precio_dolar(self):
+        if not self.dialogDolar:
+            self.dialogDolar = MDDialog(
+                title="Desea Cambiar el Precio del Dolar?",
+                type="custom",
+                content_cls=MDTextField(input_filter='float', text=self.text,
+                                        hint_text="Precio del Dolar", ),
+                buttons=[
+
+                    MDFlatButton(
+                        text="Cancelar",
+                        on_release=self.cerrar_dialogDolar
+                    ),
+                    MDFlatButton(
+                        text="Guardar",
+                        on_release=self.cambiar_precio_dolar
+                    ),
+                ],
+            )
+        self.dialogDolar.content_cls.bind(text=self.set_text)
+        self.dialogDolar.open()
+
+    def set_text(self, instance, value):
+        self.text = value
+
+    def cargar_precio(self, instance):
+        with open('model/precioDolar.txt', 'w') as mytextfile:
+            instance.text = mytextfile.read()
+
+    def cambiar_precio_dolar(self, instance):
+        with open('model/precioDolar.txt', 'w') as mytextfile:
+            mytextfile.truncate()
+            mytextfile.write(self.text)
+        toast('Precio del Dolar Actualizado: ' + self.text + ' Bs')
+        self.cerrar_dialogDolar()
+
     def cerrar_dialog(self, *args):
         self.dialog.dismiss(force=True)
+
+    def cerrar_dialogDolar(self, *args):
+        self.dialogDolar.dismiss(force=True)
 
     def eliminar_lista_desactualizada(self):
         rows = [i for i in self.ids.listContainer.children]
@@ -173,3 +216,5 @@ class Inventario(MDScreen):
     def mostrar_error(self, error_message):
         # aquí podría mostrar un dialogo o una alerta con el mensaje de error
         toast(f"{error_message}")
+
+

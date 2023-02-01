@@ -87,6 +87,7 @@
                     multiline: False
                     color_mode: 'custom'
                     line_color_focus: 0, 0, 0, .3
+                    on_focus: if self.focus: root.menu2.open()
                 MDTextField:
                     id: inputEmail
                     hint_text: "Correo Electrónico"
@@ -126,7 +127,7 @@
                             size: self.size
                             pos: self.pos
                             radius: [2]
-                    on_release: root.connect()
+                    on_release: root.registrar_usuario()
                 MDTextButton:
                     text: "Ya tengo una cuenta"
                     font_size: "13sp"

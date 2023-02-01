@@ -12,7 +12,6 @@ from kivy.uix.image import AsyncImage
 Window.size = (350, 580)
 
 
-
 class Catalogo(MDScreen):
 
     def __init__(self, **kwargs):
@@ -81,11 +80,13 @@ class Catalogo(MDScreen):
             self.eliminar_lista_desactualizada()
 
             # Leer los productos y colocarlos en el contenedor
+            self.ids.cantidadProductos.text = f"{str(len(data))} Productos"
             for i in range(len(data)):
                 precio_bolivares = data[i][4] * 22
                 self.ids.listContainer.add_widget(
                     ThreeLineAvatarListItem(ImageLeftWidget(source=data[i][6]),
-                                            text=f"{data[i][1]} - {data[i][5]}", secondary_text=f"[size=13sp]{data[i][3]} Disponibles[/size]",
+                                            text=f"{data[i][1]} - {data[i][5]}",
+                                            secondary_text=f"[size=13sp]{data[i][3]} Disponibles[/size]",
                                             tertiary_text=f"[size=12sp]{data[i][4]}$ -- {precio_bolivares} Bs[/size]")
                 )
 
