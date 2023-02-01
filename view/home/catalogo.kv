@@ -14,13 +14,16 @@
             font_size: '10sp'
             specific_text_color: 0, 0, 0, .8
             left_action_items: [["book-open-outline", "Catálogo"]]
+
         ScrollView:
             size_hint_y: None
-            height: root.height
+            height: root.height - toolbar.height
+
             MDGridLayout:
                 cols: 1
                 size_hint_y: None
                 height: self.minimum_height
+                padding: 0, 0, 0, 100
                 BoxLayout:
                     size_hint_y: None
                     height: self.minimum_height
@@ -28,6 +31,7 @@
                     padding: 24, 24, 24, 12
                     spacing: 12
                     MDTextField:
+                        id: inputBuscar
                         hint_text: "Buscar Producto..."
                         font_name: "Poppins-Regular.ttf"
                         pos_hint: {"center_x": .49, "center_y": .4}
@@ -37,6 +41,7 @@
                         color_mode: 'custom'
                         icon_left: 'magnify'
                         fill_color: 120/255, 120/255, 120/255, .03
+                        on_text: root.buscar_producto()
                     MDLabel:
                         text: '4 productos'
                         font_size: "13sp"

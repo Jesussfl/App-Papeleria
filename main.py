@@ -14,6 +14,7 @@ from model.signup import Signup
 Window.size = (350, 580)
 
 # Carga de widgets en caché
+Builder.load_file("view/home/editarProducto.kv")
 Builder.load_file("view/home/perfil.kv")
 Builder.load_file("view/home/catalogo.kv")
 Builder.load_file("view/home/inventario.kv")

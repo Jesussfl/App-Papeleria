@@ -2,12 +2,21 @@ import configparser
 
 import mysql
 from kivy.metrics import dp
+from kivy.uix.image import AsyncImage, Image
+from kivymd.toast import toast
+from kivymd.uix.button import MDFlatButton
 from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.dialog import MDDialog
 from kivymd.uix.screen import MDScreen
 from mysql.connector import cursor
+from mysql.connector import Error
+
+from model.editarProducto import EditarProducto
 
 
 class Inventario(MDScreen):
+    dialog = None
+    datos_fila_seleccionada = []
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -18,7 +27,7 @@ class Inventario(MDScreen):
         self.agregar_estilos_topbar()
 
     def on_pre_enter(self, *args):
-        self.cargar_productos()
+        self.cargar_productos('SELECT * FROM inventario')
         self.cambiar_pantalla()
 
     def validar_nivel_usuario(self, db):
@@ -40,12 +49,23 @@ class Inventario(MDScreen):
             db.close()
             print("Se cerro la base de datos")
 
-    def cargar_productos(self):
+    def buscar_producto(self):
+        nombre_producto = self.ids.inputBuscar.text
+        print("hola")
+        self.cargar_productos(
+            "SELECT * FROM inventario WHERE codigo LIKE '%{0}%' or nombre LIKE '%{0}%' OR descripcion LIKE '%{0}%' OR marca LIKE '%{0}%'".format(
+                nombre_producto))
+
+    def cargar_productos(self, consulta):
         db = self.conectar_bd()
         cursor = db.cursor()
-        query = 'SELECT * FROM inventario'
+        query = consulta
         cursor.execute(query)
-        data = cursor.fetchall()
+        rows = []
+        for (codigo, nombre, descripcion, cantidad, precio, marca, imagen, estado, fecha_modificacion) in cursor:
+            print(imagen)
+            rows.append((codigo, nombre, descripcion, cantidad, precio, marca, imagen, estado,
+                         fecha_modificacion))
         if db.is_connected():
             db.close()
         cols = ['Código', 'Producto', 'Descripción', 'Cantidad', 'Precio', 'Marca', 'Imágen', 'Estado',
@@ -54,13 +74,13 @@ class Inventario(MDScreen):
         table = MDDataTable(
             elevation=1,
             check=True,
-            row_data=data,
-            column_data=[(col, dp(40)) for col in cols]
+            row_data=rows,
+            column_data=[(col, dp(40)) for col in cols],
+            use_pagination=True,
 
         )
         # Vincular DataTable
         table.bind(on_check_press=self.fila_seleccionada)
-        table.bind(on_row_press=self.fila_presionada)
         self.ids.listContainer.add_widget(table)
 
     def conectar_bd(self):
@@ -73,14 +93,70 @@ class Inventario(MDScreen):
         db = mysql.connector.connect(host=str(host), user=str(user), password=str(password), database=str(dbname))
         return db
 
-    def fila_seleccionada(self, instance_table, current_row):
-        # Metodo para revisar fila seleccionada
-        print(instance_table, current_row)
+    def fila_seleccionada(self, instance_table, instance_row):
+        self.datos_fila_seleccionada = instance_row
+        self.mostrar_opciones(instance_row)
 
-    # Function for row presses
-    def fila_presionada(self, instance_table, instance_row):
-        # Metodo para revisar fila presionada
-        print(instance_table, instance_row)
+    def eliminar_producto(self, *args):
+        try:
+            db = self.conectar_bd()
+            cursor = db.cursor()
+            codigo = self.datos_fila_seleccionada[0]
+            print(codigo)
+            query = "DELETE FROM inventario WHERE codigo={0}".format(codigo)
+            cursor.execute(query)
+            db.commit()
+        except Error as ex:
+            print("Error durante la conexion:", ex)
+
+            if ex.errno == 1062:
+                self.mostrar_error("El producto ya existe.")
+            elif ex.errno == 1044:
+                self.mostrar_error("Acceso denegado para el usuario especificado.")
+            elif ex.errno == 1049:
+                self.mostrar_error("Base de datos no existe.")
+            else:
+                self.mostrar_error(f"Error MySQL {ex.errno}: {ex.msg}")
+
+        finally:
+            if db.is_connected():
+                db.close()
+                print("Se cerro la base de datos")
+                toast('Producto Borrado Correctamente')
+                self.cerrar_dialog()
+                self.cargar_productos('SELECT * FROM inventario')
+
+    def editar_producto(self, *args):
+        with open('model/cache.txt', 'w') as mytextfile:
+            mytextfile.truncate()
+            mytextfile.write(self.datos_fila_seleccionada[0])
+        self.manager.add_widget(EditarProducto(name='editarProducto'))
+        self.cerrar_dialog()
+        self.manager.current = 'editarProducto'
+
+    def mostrar_opciones(self, datos):
+        if not self.dialog:
+            self.dialog = MDDialog(
+                text="Seleccione una opción del Producto: {0}".format(datos[1]),
+                buttons=[
+                    MDFlatButton(
+                        text="Cerrar",
+                        on_release=self.cerrar_dialog
+                    ),
+                    MDFlatButton(
+                        text="Editar Fila",
+                        on_release=self.editar_producto
+                    ),
+                    MDFlatButton(
+                        text="Eliminar Producto",
+                        on_release=self.eliminar_producto
+                    ),
+                ],
+            )
+        self.dialog.open()
+
+    def cerrar_dialog(self, *args):
+        self.dialog.dismiss(force=True)
 
     def eliminar_lista_desactualizada(self):
         rows = [i for i in self.ids.listContainer.children]
@@ -94,3 +170,7 @@ class Inventario(MDScreen):
     def agregar_estilos_topbar(self, *args):
         self.ids.toolbar.ids.label_title.font_name = "Poppins-Medium.ttf"
         self.ids.toolbar.ids.label_title.font_size = '15sp'
+
+    def mostrar_error(self, error_message):
+        # aquí podría mostrar un dialogo o una alerta con el mensaje de error
+        toast(f"{error_message}")

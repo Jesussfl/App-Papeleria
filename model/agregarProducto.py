@@ -2,6 +2,7 @@ import configparser
 from datetime import datetime
 
 from kivy.app import App
+from kivymd.uix.filemanager import MDFileManager
 from kivymd.uix.screen import MDScreen
 from kivymd.toast import toast
 import mysql
@@ -10,8 +11,35 @@ from mysql.connector import Error
 
 
 class AgregarProducto(MDScreen):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.manager_open = False
+        self.file_manager = MDFileManager(
+            preview=True,
+            current_path='C:',
+            use_access=True,
+            exit_manager=self.exit_manager,
+            select_path=self.select_path
+        )
+
+    def exit_manager(self, *args):
+        self.remove_widget(self.file_manager)
+
+    def select_path(self, path):
+        path = path.replace('\\', '/')
+        self.ids.inputImagen.text = path
+        self.manager_open = False
+        self.file_manager.close()
+        pass
+
     def on_pre_enter(self, *args):
         self.agregar_estilos_topbar()
+
+    def open_file_manager(self):
+        # self.add_widget(self.file_manager)
+        self.file_manager.show('C:')  # output manager to the screen
+        self.manager_open = True
 
     def agregar_estilos_topbar(self, *args):
         self.ids.toolbar.ids.label_title.font_name = "Poppins-Medium.ttf"
