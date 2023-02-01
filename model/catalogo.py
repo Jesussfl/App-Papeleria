@@ -4,10 +4,13 @@ import mysql
 import mysql.connector
 from kivy.core.window import Window
 from kivymd.uix.list import ImageLeftWidget, ThreeLineAvatarListItem
+from kivymd.uix.navigationdrawer import MDNavigationDrawerItem
 from kivymd.uix.screen import MDScreen
 from mysql.connector import Error
 from kivy.uix.image import AsyncImage
+
 Window.size = (350, 580)
+
 
 
 class Catalogo(MDScreen):
@@ -29,7 +32,6 @@ class Catalogo(MDScreen):
 
     def agregar_estilos_topbar(self):
         self.ids.toolbar.ids.label_title.font_size = '15sp'
-        self.ids.toolbar.ids.label_title.font_name = "Poppins-Medium.ttf"
 
     def eliminar_lista_desactualizada(self):
         rows = [i for i in self.ids.listContainer.children]
@@ -80,10 +82,11 @@ class Catalogo(MDScreen):
 
             # Leer los productos y colocarlos en el contenedor
             for i in range(len(data)):
+                precio_bolivares = data[i][4] * 22
                 self.ids.listContainer.add_widget(
                     ThreeLineAvatarListItem(ImageLeftWidget(source=data[i][6]),
-                                            text=f"{data[i][1]}", secondary_text=f"[size=13sp]{data[i][3]}[/size]",
-                                            tertiary_text=f"[size=12sp]{data[i][4]}[/size]")
+                                            text=f"{data[i][1]} - {data[i][5]}", secondary_text=f"[size=13sp]{data[i][3]} Disponibles[/size]",
+                                            tertiary_text=f"[size=12sp]{data[i][4]}$ -- {precio_bolivares} Bs[/size]")
                 )
 
         except Error as ex:

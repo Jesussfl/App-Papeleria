@@ -43,7 +43,6 @@ class Perfil(MDScreen):
         self.ids.bottom_navigation.switch_tab('perfil-screen')
 
     def agregar_estilos_topbar(self, *args):
-        self.ids.toolbar.ids.label_title.font_name = "Poppins-Medium.ttf"
         self.ids.toolbar.ids.label_title.font_size = '15sp'
 
     def cargar_datos_usuario(self, *args):

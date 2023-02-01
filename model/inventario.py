@@ -168,7 +168,6 @@ class Inventario(MDScreen):
         self.ids.bottomNavigation.switch_tab('inventario-screen')
 
     def agregar_estilos_topbar(self, *args):
-        self.ids.toolbar.ids.label_title.font_name = "Poppins-Medium.ttf"
         self.ids.toolbar.ids.label_title.font_size = '15sp'
 
     def mostrar_error(self, error_message):

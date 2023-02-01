@@ -42,7 +42,6 @@ class AgregarProducto(MDScreen):
         self.manager_open = True
 
     def agregar_estilos_topbar(self, *args):
-        self.ids.toolbar.ids.label_title.font_name = "Poppins-Medium.ttf"
         self.ids.toolbar.ids.label_title.font_size = '15sp'
 
     def registrar_producto(self):
