@@ -118,9 +118,9 @@ class Signup(MDScreen):
             telefono = "+58-" + telefono[-11:-7] + "-" + telefono[-7:-4] + "-" + telefono[-4:]
 
         # Validando que la cedula o rif tenga la cantidad de caracteres necesarias
-        if not len(cedula_rif) in (7, 9):
-            self.mostrar_error("Por favor ingrese un numero de documento válido.")
-            return
+        # if not len(cedula_rif) in (6, 10):
+        #     self.mostrar_error("Por favor ingrese un numero de documento válido.")
+        #     return
 
         # Validando que la contraseña tenga al menos una letra mayúscula, una minúscula y un número
         if not re.search("[a-z]", contraseña):
