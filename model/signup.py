@@ -10,6 +10,10 @@ import mysql
 import mysql.connector
 from mysql.connector import Error
 
+from model.catalogo import Catalogo
+from model.inventario import Inventario
+from model.perfil import Perfil
+
 
 class Signup(MDScreen):
 
@@ -154,6 +158,9 @@ class Signup(MDScreen):
 
                 print("Datos Registrados Correctamente")
                 toast('Sesión Iniciada')
+                self.manager.add_widget(Catalogo(name='catalogo'))
+                self.manager.add_widget(Perfil(name='perfil'))
+                self.manager.add_widget(Inventario(name='inventario'))
                 self.manager.current = 'catalogo'
         except Error as ex:
             print("Error durante la conexion:", ex)
