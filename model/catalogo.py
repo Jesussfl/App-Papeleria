@@ -78,11 +78,13 @@ class Catalogo(MDScreen):
 
             # Remover la lista desactualizada del cache
             self.eliminar_lista_desactualizada()
-
+            # Guardando el precio del dolar
+            with open('model/precioDolar.txt') as mytextfile:
+                precio_dolar = mytextfile.read()
             # Leer los productos y colocarlos en el contenedor
             self.ids.cantidadProductos.text = f"{str(len(data))} Productos"
             for i in range(len(data)):
-                precio_bolivares = data[i][4] * 22
+                precio_bolivares = data[i][4] * float(precio_dolar)
                 self.ids.listContainer.add_widget(
                     ThreeLineAvatarListItem(ImageLeftWidget(source=data[i][6]),
                                             text=f"{data[i][1]} - {data[i][5]}",

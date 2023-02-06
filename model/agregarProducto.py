@@ -64,7 +64,7 @@ class AgregarProducto(MDScreen):
 
     def open_file_manager(self):
         # Abriendo el administrador de archivos
-        self.file_manager.show('C:')
+        self.file_manager.show('/')
         self.manager_open = True
 
     def agregar_estilos_topbar(self, *args):

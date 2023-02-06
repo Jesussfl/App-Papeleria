@@ -15,7 +15,6 @@ from model.perfil import Perfil
 
 class Login(MDScreen):
 
-
     def iniciar_sesion(self):
 
         try:
@@ -85,4 +84,3 @@ class Login(MDScreen):
     def mostrar_error(self, mensaje_error):
         # aquí podría mostrar un dialogo o una alerta con el mensaje de error
         toast(f"{mensaje_error}")
-
