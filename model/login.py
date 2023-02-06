@@ -9,6 +9,7 @@ import mysql.connector
 from mysql.connector import Error
 
 from model.catalogo import Catalogo
+from model.editarProducto import EditarProducto
 from model.inventario import Inventario
 from model.perfil import Perfil
 
@@ -38,6 +39,8 @@ class Login(MDScreen):
                 self.manager.add_widget(Catalogo(name='catalogo'))
                 self.manager.add_widget(Perfil(name='perfil'))
                 self.manager.add_widget(Inventario(name='inventario'))
+                self.manager.add_widget(EditarProducto(name='editarProducto'))
+
                 self.manager.current = 'catalogo'
 
         except Error as ex:

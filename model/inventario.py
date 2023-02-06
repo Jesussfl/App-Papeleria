@@ -34,6 +34,7 @@ class Inventario(MDScreen):
         self.agregar_estilos_topbar()
 
     def on_pre_enter(self, *args):
+
         self.cargar_productos('SELECT * FROM inventario')
         self.cambiar_pantalla()
 
@@ -100,6 +101,7 @@ class Inventario(MDScreen):
     def fila_seleccionada(self, instance_table, instance_row):
         self.datos_fila_seleccionada = instance_row
         self.mostrar_opciones(instance_row)
+        instance_table.table_data.select_all('normal')
 
     def eliminar_producto(self, *args):
         try:
@@ -133,7 +135,7 @@ class Inventario(MDScreen):
         with open('model/cache.txt', 'w') as mytextfile:
             mytextfile.truncate()
             mytextfile.write(self.datos_fila_seleccionada[0])
-        self.manager.add_widget(EditarProducto(name='editarProducto'))
+        print(self.datos_fila_seleccionada[0])
         self.cerrar_dialog()
         self.manager.current = 'editarProducto'
 
@@ -196,6 +198,7 @@ class Inventario(MDScreen):
 
     def cerrar_dialog(self, *args):
         self.dialog.dismiss(force=True)
+        self.dialog = None
 
     def cerrar_dialogDolar(self, *args):
         self.dialogDolar.dismiss(force=True)
@@ -215,5 +218,3 @@ class Inventario(MDScreen):
     def mostrar_error(self, error_message):
         # aquí podría mostrar un dialogo o una alerta con el mensaje de error
         toast(f"{error_message}")
-
-

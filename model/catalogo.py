@@ -85,6 +85,7 @@ class Catalogo(MDScreen):
             self.ids.cantidadProductos.text = f"{str(len(data))} Productos"
             for i in range(len(data)):
                 precio_bolivares = data[i][4] * float(precio_dolar)
+                precio_bolivares = round(precio_bolivares, 2)
                 self.ids.listContainer.add_widget(
                     ThreeLineAvatarListItem(ImageLeftWidget(source=data[i][6]),
                                             text=f"{data[i][1]} - {data[i][5]}",

@@ -13,9 +13,30 @@ from mysql.connector import Error
 
 class EditarProducto(MDScreen):
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        # Creando el administrador de archivos
+    # def __init__(self, **kwargs):
+    #     super().__init__(**kwargs)
+    #     # Creando el administrador de archivos
+
+    def colocar_contenido_dropdown(self, text__item):
+        self.ids.inputTipoPrecio.text = text__item
+        self.ids.inputPrecio.disabled = False
+        self.ids.inputPrecio.helper_text = ""
+        self.menu.dismiss()
+
+
+    def agregar_estilos_topbar(self, *args):
+        self.ids.toolbar.ids.label_title.font_size = '15sp'
+
+    def select_path(self, path):
+        # Almacenando la ruta del archivo seleccionado
+        path = path.replace('\\', '/')
+        self.ids.inputImagen.text = path
+        self.manager_open = False
+        self.file_manager.close()
+        pass
+
+    def on_pre_enter(self, *args):
+        self.agregar_estilos_topbar()
         self.manager_open = False
         self.file_manager = MDFileManager(
             preview=True,
@@ -46,27 +67,6 @@ class EditarProducto(MDScreen):
         self.agregar_estilos_topbar()
         self.cargar_producto()
 
-    def colocar_contenido_dropdown(self, text__item):
-        self.ids.inputTipoPrecio.text = text__item
-        self.ids.inputPrecio.disabled = False
-        self.ids.inputPrecio.helper_text = ""
-        self.menu.dismiss()
-
-    # def on_pre_enter(self, *args):
-
-    def agregar_estilos_topbar(self, *args):
-        self.ids.toolbar.ids.label_title.font_size = '15sp'
-
-    def select_path(self, path):
-        # Almacenando la ruta del archivo seleccionado
-        path = path.replace('\\', '/')
-        self.ids.inputImagen.text = path
-        self.manager_open = False
-        self.file_manager.close()
-        pass
-
-    def on_pre_enter(self, *args):
-        self.agregar_estilos_topbar()
 
     def exit_manager(self, *args):
         self.remove_widget(self.file_manager)
