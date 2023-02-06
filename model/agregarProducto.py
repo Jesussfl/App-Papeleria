@@ -45,6 +45,19 @@ class AgregarProducto(MDScreen):
         )
         self.agregar_estilos_topbar()
 
+    def on_pre_enter(self, *args):
+        self.limpiar_campos()
+
+    def limpiar_campos(self):
+        app = App.get_running_app()
+        app.manager.get_screen('agregarProducto').ids['inputNombreProducto'].text = ""
+        app.manager.get_screen('agregarProducto').ids['inputDescripcion'].text = ""
+        app.manager.get_screen('agregarProducto').ids['inputCantidad'].text = ""
+        app.manager.get_screen('agregarProducto').ids['inputPrecio'].text = ""
+        app.manager.get_screen('agregarProducto').ids['inputMarca'].text = ""
+        app.manager.get_screen('agregarProducto').ids['inputImagen'].text = ""
+        app.manager.get_screen('agregarProducto').ids['inputTipoPrecio'].text = ""
+
     def colocar_contenido_dropdown(self, text__item):
         self.ids.inputTipoPrecio.text = text__item
         self.ids.inputPrecio.disabled = False
@@ -82,7 +95,6 @@ class AgregarProducto(MDScreen):
         iva = 16
         tiempo_creacion = datetime.now()
 
-
         # Validando que haya stock
         if cantidad > 0:
             estado = "Disponible"
@@ -104,7 +116,6 @@ class AgregarProducto(MDScreen):
 
         # Redondeando a 2 decimales
         precio = round(precio, 2)
-
 
         # Validando que no hayan campos vacíos
         if not nombre or not cantidad or not precio or not marca or not ruta_imagen:
