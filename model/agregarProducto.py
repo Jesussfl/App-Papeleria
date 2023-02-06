@@ -87,8 +87,12 @@ class AgregarProducto(MDScreen):
         app = App.get_running_app()
         nombre = app.manager.get_screen('agregarProducto').ids['inputNombreProducto'].text.title()
         descripcion = app.manager.get_screen('agregarProducto').ids['inputDescripcion'].text
-        cantidad = int(app.manager.get_screen('agregarProducto').ids['inputCantidad'].text)
-        precio = float(app.manager.get_screen('agregarProducto').ids['inputPrecio'].text)
+        if not app.manager.get_screen('agregarProducto').ids['inputCantidad'].text or not app.manager.get_screen('agregarProducto').ids['inputPrecio'].text:
+            self.mostrar_error("Llene los campos faltantes")
+            return
+        else:
+            cantidad = int(app.manager.get_screen('agregarProducto').ids['inputCantidad'].text)
+            precio = float(app.manager.get_screen('agregarProducto').ids['inputPrecio'].text)
         marca = app.manager.get_screen('agregarProducto').ids['inputMarca'].text.title()
         ruta_imagen = app.manager.get_screen('agregarProducto').ids['inputImagen'].text
         tipo_precio = app.manager.get_screen('agregarProducto').ids['inputTipoPrecio'].text
@@ -111,7 +115,7 @@ class AgregarProducto(MDScreen):
             precio = precio_mas_iva / float(precio_dolar)
         else:
             precio_bolivar = precio * float(precio_dolar)
-            precio_mas_iva = (((precio_bolivar * iva) / 100) + precio)
+            precio_mas_iva = (((precio_bolivar * iva) / 100) + precio_bolivar)
             precio = precio_mas_iva / float(precio_dolar)
 
         # Redondeando a 2 decimales
