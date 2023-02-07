@@ -151,7 +151,7 @@ class Signup(MDScreen):
                     contraseña,
                     ultima_vez,
                     genero,
-                    nivel_usuario[1])
+                    nivel_usuario[0])
                 cursor.execute(query)
                 db.commit()
                 with open('model/session.txt', 'w') as mytextfile:

@@ -46,7 +46,7 @@ class Papeleria(MDApp):
 
     def on_start(self):
         # Tiempo de carga para el splash screen
-        Clock.schedule_once(self.login, 4)
+        Clock.schedule_once(self.login, 10)
 
         # Limpieza del archivo que guarda las credenciales de la sesión
         with open('model/session.txt', 'w') as mytextfile:

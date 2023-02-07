@@ -139,7 +139,7 @@ class EditarProducto(MDScreen):
 
         else:
             precio_bolivar = precio * float(precio_dolar)
-            precio_mas_iva = (((precio_bolivar * iva) / 100) + precio)
+            precio_mas_iva = (((precio_bolivar * iva) / 100) + precio_bolivar)
             precio = precio_mas_iva / float(precio_dolar)
 
         # Redondeando a 2 decimales
