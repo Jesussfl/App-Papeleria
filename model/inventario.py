@@ -20,7 +20,6 @@ from model.editarProducto import EditarProducto
 class Inventario(MDScreen):
     dialog = None
     dialogDolar = None
-    text = StringProperty("")
     datos_fila_seleccionada = []
     with open('model/precioDolar.txt') as mytextfile:
         text = mytextfile.read()
